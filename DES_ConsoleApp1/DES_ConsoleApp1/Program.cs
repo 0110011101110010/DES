@@ -27,17 +27,11 @@ namespace DES_ConsoleApp1
             {
                 //Console.WriteLine("Hello world!");
                 FakeMain();
-                // 1. punkto realizavimas: kreipkimės į metodą kuriame susigeneruos užšifruotas tekstas
+                // 3. punkto realizavimas: raktas yra sudaromas iš 8 ASCII simbolių; prieš išsiunčiant jį, reikia konvertuoti i byte'ų array'ų
 
                 /* Žingsniai:
                  * 
-                 * 1. Šifruojamas, dešifruojamas įvestas tekstas
-                 *  1.1. šifravimas
-                 *  1.2. dešifravimas
-                 *  
-                 * 2. Užšifruoto teksto išsaugojimas faile
-                 *  2.1. išsaugoti tekstą faile
-                 *  2.2. nuskaityti failą
+                 *  1.-2. Atskirti šifravimą ir dešifravimą
                  *  
                  * 3. Vartotojas įveda raktą
                  * 3.1. šifravimas
@@ -50,8 +44,8 @@ namespace DES_ConsoleApp1
                  * 5. Kelti tarpinius komentarus į githubą
                  * 
                  * Klausimai:
-                 * 0. Naudoti biblioteką ar kurti algoritmą?
-                 * 1. Galimybė užšifruoti/dešifruoti failo tekstą? (2.)
+                 * 0. Naudoti biblioteką ar kurti algoritmą? - biblioteką
+                 * 1. Galimybė užšifruoti/dešifruoti failo tekstą? - vartotojas apie tai nežino; visada šifruojam tekstą į failą
                  */
             }
             catch (Exception exc)
@@ -70,6 +64,11 @@ namespace DES_ConsoleApp1
                 // Create a string to encrypt.
                 string sData = "Here is some data to encrypt.";
                 string FileName = "CText.txt";
+                string key_temp = "12345678";
+
+                // Vartotojo raktas
+                Console.WriteLine(key_temp.Length);
+                byte[] key = GenerateKey(key_temp);
 
                 // Encrypt text to a file using the file name, key, and IV.
                 EncryptTextToFile(sData, FileName, DESalg.Key, DESalg.IV);
@@ -79,10 +78,42 @@ namespace DES_ConsoleApp1
 
                 // Display the decrypted string to the console.
                 Console.WriteLine(Final);
+
+                // Panaikinam failą - gali prireikt pakartotinai šifruojant
+                //File.Delete(FileName);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+        static byte[] GenerateKey(string key)
+        {
+            try
+            {
+                byte[] keyInBytes = null;
+                if (key.Length == 8)
+                {
+                    byte[] array = Encoding.ASCII.GetBytes(key);
+                    for (int i = 0; i < 8; i++)
+                    {
+                        keyInBytes[i] = array[i];
+                    }
+
+                    //Console.Write("Raktas ASCII koduote: ");
+                    foreach (byte _byte in keyInBytes)
+                    {
+                        //Console.Write(_byte + " ");
+                    }
+                    //Console.WriteLine("");
+                    return keyInBytes;
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
             }
         }
         public static void EncryptTextToFile(String Data, String FileName, byte[] Key, byte[] IV)
