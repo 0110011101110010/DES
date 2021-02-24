@@ -1,0 +1,7 @@
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\2. PD\DES\DES_ConsoleApp1\DES_ConsoleApp1\obj\Debug\DES_ConsoleApp1.csprojAssemblyReference.cache
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\2. PD\DES\DES_ConsoleApp1\DES_ConsoleApp1\obj\Debug\DES_ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\2. PD\DES\DES_ConsoleApp1\DES_ConsoleApp1\bin\Debug\DES_ConsoleApp1.exe.config
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\2. PD\DES\DES_ConsoleApp1\DES_ConsoleApp1\bin\Debug\DES_ConsoleApp1.exe
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\2. PD\DES\DES_ConsoleApp1\DES_ConsoleApp1\bin\Debug\DES_ConsoleApp1.pdb
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\2. PD\DES\DES_ConsoleApp1\DES_ConsoleApp1\obj\Debug\DES_ConsoleApp1.exe
+C:\Users\DG\Desktop\New folder\VIKO\Antras kursas (2020-2021)\Antras semestras\Informacijos saugumas (Justinas Zailskas)\2. PD\DES\DES_ConsoleApp1\DES_ConsoleApp1\obj\Debug\DES_ConsoleApp1.pdb
