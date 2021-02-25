@@ -25,17 +25,14 @@ namespace DES_ConsoleApp1
         {
             try
             {
-                //Console.WriteLine("Hello world!");
                 FakeMain();
-                // 3. punkto realizavimas: raktas yra sudaromas iš 8 ASCII simbolių; prieš išsiunčiant jį, reikia konvertuoti i byte'ų array'ų
+                // 4. punkto realizavimas: dešifravimas: pasirinkti šifravimo modą
 
                 /* Žingsniai:
                  * 
-                 *  1.-2. Atskirti šifravimą ir dešifravimą
+                 *  1.-2. Atskirti šifravimą ir dešifravimą - (nereikia)
                  *  
-                 * 3. Vartotojas įveda raktą
-                 * 3.1. šifravimas
-                 * 3.2. dešifravimas
+                 * 3. Vartotojas įveda raktą +
                  * 
                  * 4. Pasirinktina šifravimo moda
                  *  4.1. ECB
@@ -46,6 +43,7 @@ namespace DES_ConsoleApp1
                  * Klausimai:
                  * 0. Naudoti biblioteką ar kurti algoritmą? - biblioteką
                  * 1. Galimybė užšifruoti/dešifruoti failo tekstą? - vartotojas apie tai nežino; visada šifruojam tekstą į failą
+                 * 2. Galutiniam variante (vertinamam daugiausia balų) reikia dešifruoti vartotojo įvestą užšifruotą tekstą ar faile esantį užšifruotą tekstą
                  */
             }
             catch (Exception exc)
@@ -60,24 +58,23 @@ namespace DES_ConsoleApp1
                 // Create a new DES object to generate a key
                 // and initialization vector (IV).
                 DES DESalg = DES.Create();
+                Console.WriteLine("Moda: " + DESalg.Mode);
 
                 // Create a string to encrypt.
                 string sData = "Here is some data to encrypt.";
                 string FileName = "CText.txt";
-                string key_temp = "1 234567";
+                string key_temp = "123 4567";
 
                 // Vartotojo raktas
-                Console.WriteLine(key_temp.Length);
+                Console.WriteLine("Rakto simbolių skaičius: " + key_temp.Length);
                 byte[] key = GenerateKey(key_temp);
-                if (key == null)
-                {
-                    Console.WriteLine("The key must be 8 symbols. Space counts as symbol too!");
-                }
+                Console.WriteLine("Rakto baitų masyvo ilgis: " + key.Length);
+                Console.Write("Rakto baitų masyvas: ");
                 foreach (byte b in key)
                 {
-                    Console.WriteLine(b + " ");
+                    Console.Write(b + " ");
                 }
-
+                Console.WriteLine("");
 
                 // Encrypt text to a file using the file name, key, and IV.
                 //EncryptTextToFile(sData, FileName, DESalg.Key, DESalg.IV);
@@ -102,18 +99,13 @@ namespace DES_ConsoleApp1
         {
             try
             {
-                byte[] keyInBytes;
-                keyInBytes = new byte[key.Length];
                 if (key.Length == 8)
                 {
-                    byte[] array = Encoding.ASCII.GetBytes(key);
-                    for (int i = 0; i < 8; i++)
-                    {
-                        keyInBytes[i] = array[i];
-                    }
-
-                    return keyInBytes;
+                    return Encoding.ASCII.GetBytes(key);
                 }
+                Console.WriteLine("The key must be 8 symbols. Space counts as symbol too!");
+                // Potenciali vieta pasiūlyti automatiškai sugeneruoti raktą arba įvesti naują
+                // *geresnė vieta būtų tai padaryti, kai vartotojas įveda raktą
                 return null;
             }
             catch (Exception e)
