@@ -64,17 +64,28 @@ namespace DES_ConsoleApp1
                 // Create a string to encrypt.
                 string sData = "Here is some data to encrypt.";
                 string FileName = "CText.txt";
-                string key_temp = "12345678";
+                string key_temp = "1 234567";
 
                 // Vartotojo raktas
                 Console.WriteLine(key_temp.Length);
                 byte[] key = GenerateKey(key_temp);
+                if (key == null)
+                {
+                    Console.WriteLine("The key must be 8 symbols. Space counts as symbol too!");
+                }
+                foreach (byte b in key)
+                {
+                    Console.WriteLine(b + " ");
+                }
+
 
                 // Encrypt text to a file using the file name, key, and IV.
-                EncryptTextToFile(sData, FileName, DESalg.Key, DESalg.IV);
+                //EncryptTextToFile(sData, FileName, DESalg.Key, DESalg.IV);
+                EncryptTextToFile(sData, FileName, key, DESalg.IV);
 
                 // Decrypt the text from a file using the file name, key, and IV.
-                string Final = DecryptTextFromFile(FileName, DESalg.Key, DESalg.IV);
+                //string Final = DecryptTextFromFile(FileName, DESalg.Key, DESalg.IV);
+                string Final = DecryptTextFromFile(FileName, key, DESalg.IV);
 
                 // Display the decrypted string to the console.
                 Console.WriteLine(Final);
@@ -91,7 +102,8 @@ namespace DES_ConsoleApp1
         {
             try
             {
-                byte[] keyInBytes = null;
+                byte[] keyInBytes;
+                keyInBytes = new byte[key.Length];
                 if (key.Length == 8)
                 {
                     byte[] array = Encoding.ASCII.GetBytes(key);
@@ -100,12 +112,6 @@ namespace DES_ConsoleApp1
                         keyInBytes[i] = array[i];
                     }
 
-                    //Console.Write("Raktas ASCII koduote: ");
-                    foreach (byte _byte in keyInBytes)
-                    {
-                        //Console.Write(_byte + " ");
-                    }
-                    //Console.WriteLine("");
                     return keyInBytes;
                 }
                 return null;
