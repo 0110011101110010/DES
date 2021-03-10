@@ -58,12 +58,12 @@ namespace DES_ConsoleApp1
                 // Create a new DES object to generate a key
                 // and initialization vector (IV).
                 DES DESalg = DES.Create();
-                Console.WriteLine("Moda: " + DESalg.Mode);
 
                 // Create a string to encrypt.
                 string sData = "Here is some data to encrypt.";
                 string FileName = "CText.txt";
                 string key_temp = "123 4567";
+                bool cipherMode = false; // false - CBC, true - ECB
 
                 // Vartotojo raktas
                 Console.WriteLine("Rakto simbolių skaičius: " + key_temp.Length);
@@ -78,11 +78,11 @@ namespace DES_ConsoleApp1
 
                 // Encrypt text to a file using the file name, key, and IV.
                 //EncryptTextToFile(sData, FileName, DESalg.Key, DESalg.IV);
-                EncryptTextToFile(sData, FileName, key, DESalg.IV);
+                EncryptTextToFile(sData, FileName, key, DESalg.IV, cipherMode);
 
                 // Decrypt the text from a file using the file name, key, and IV.
                 //string Final = DecryptTextFromFile(FileName, DESalg.Key, DESalg.IV);
-                string Final = DecryptTextFromFile(FileName, key, DESalg.IV);
+                string Final = DecryptTextFromFile(FileName, key, DESalg.IV, cipherMode);
 
                 // Display the decrypted string to the console.
                 Console.WriteLine(Final);
@@ -114,7 +114,7 @@ namespace DES_ConsoleApp1
                 return null;
             }
         }
-        public static void EncryptTextToFile(String Data, String FileName, byte[] Key, byte[] IV)
+        public static void EncryptTextToFile(String Data, String FileName, byte[] Key, byte[] IV, bool cipherMode)
         {
             try
             {
@@ -123,6 +123,8 @@ namespace DES_ConsoleApp1
 
                 // Create a new DES object.
                 DES DESalg = DES.Create();
+                if (cipherMode == true)
+                    DESalg.Mode = CipherMode.ECB;
 
                 // Create a CryptoStream using the FileStream
                 // and the passed key and initialization vector (IV).
@@ -153,7 +155,7 @@ namespace DES_ConsoleApp1
             }
         }
 
-        public static string DecryptTextFromFile(String FileName, byte[] Key, byte[] IV)
+        public static string DecryptTextFromFile(String FileName, byte[] Key, byte[] IV, bool cipherMode)
         {
             try
             {
@@ -162,6 +164,8 @@ namespace DES_ConsoleApp1
 
                 // Create a new DES object.
                 DES DESalg = DES.Create();
+                if(cipherMode == true)
+                    DESalg.Mode = CipherMode.ECB;
 
                 // Create a CryptoStream using the FileStream
                 // and the passed key and initialization vector (IV).
