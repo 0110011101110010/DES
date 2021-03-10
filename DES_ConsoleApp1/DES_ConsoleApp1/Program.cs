@@ -26,25 +26,6 @@ namespace DES_ConsoleApp1
             try
             {
                 FakeMain();
-                // 4. punkto realizavimas: dešifravimas: pasirinkti šifravimo modą
-
-                /* Žingsniai:
-                 * 
-                 *  1.-2. Atskirti šifravimą ir dešifravimą - (nereikia)
-                 *  
-                 * 3. Vartotojas įveda raktą +
-                 * 
-                 * 4. Pasirinktina šifravimo moda
-                 *  4.1. ECB
-                 *  4.2. CBC
-                 * 
-                 * 5. Kelti tarpinius komentarus į githubą
-                 * 
-                 * Klausimai:
-                 * 0. Naudoti biblioteką ar kurti algoritmą? - biblioteką
-                 * 1. Galimybė užšifruoti/dešifruoti failo tekstą? - vartotojas apie tai nežino; visada šifruojam tekstą į failą
-                 * 2. Galutiniam variante (vertinamam daugiausia balų) reikia dešifruoti vartotojo įvestą užšifruotą tekstą ar faile esantį užšifruotą tekstą
-                 */
             }
             catch (Exception exc)
             {
@@ -55,33 +36,81 @@ namespace DES_ConsoleApp1
         {
             try
             {
+                int x = 0;
+                string text = null;
+                string key_temp = null;
+                string cipherMode_temp = null;
+                int cipherMode = 0;
                 // Create a new DES object to generate a key
                 // and initialization vector (IV).
                 DES DESalg = DES.Create();
 
+                // Šifruojamas tekstas
+                while (x == 0)
+                {
+                    Console.Write("Įveskite šifruojamą tekstą: ");
+                    text = Console.ReadLine();
+                    if (text.Length > 0)
+                        x++;
+                    else
+                    {
+                        Console.WriteLine("Reikia bent vieno simbolio.");
+                        Console.WriteLine("Teksto ilgis: " + key_temp.Length);
+                    }
+
+                }
+                x = 0;
+
+                // Raktas
+                while (x == 0)
+                {
+                    Console.Write("Įveskite raktą šifravimui ir dešifravimui (rakto ilgis 8 simboliai): ");
+                    key_temp = Console.ReadLine();
+                    if (key_temp.Length == 8)
+                        x++;
+                    else
+                    {
+                        Console.WriteLine("Raktas turi būti 8 simboliai. Tarpas skaitosi kaip simbolis!");
+                        Console.WriteLine("Rakto ilgis: " + key_temp.Length);
+                    }
+                }
+                x = 0;
+
+                while (x == 0)
+                {
+                    Console.WriteLine("Modos: 0 = CBC, 1 = EBC");
+                    Console.Write("Pasirinkite: ");
+                    cipherMode_temp = Console.ReadLine();
+                    if (cipherMode_temp == "0")
+                    {
+                        cipherMode = 0;
+                        x++;
+                    }
+                    else if (cipherMode_temp == "1")
+                    {
+                        cipherMode = 1;
+                        x++;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Įveskite tik 0 arba 1");
+                        Console.WriteLine("Įvesta reikšmė: " + cipherMode_temp);
+                    }
+                }
+
                 // Create a string to encrypt.
-                string sData = "Here is some data to encrypt.";
+                //string sData = "Here is some data to encrypt.";
                 string FileName = "CText.txt";
-                string key_temp = "123 4567";
-                bool cipherMode = false; // false - CBC, true - ECB
+                //string key_temp = "123 4567";
+                //bool cipherMode = false; // false - CBC, true - ECB
 
                 // Vartotojo raktas
-                Console.WriteLine("Rakto simbolių skaičius: " + key_temp.Length);
                 byte[] key = GenerateKey(key_temp);
-                Console.WriteLine("Rakto baitų masyvo ilgis: " + key.Length);
-                Console.Write("Rakto baitų masyvas: ");
-                foreach (byte b in key)
-                {
-                    Console.Write(b + " ");
-                }
-                Console.WriteLine("");
 
                 // Encrypt text to a file using the file name, key, and IV.
-                //EncryptTextToFile(sData, FileName, DESalg.Key, DESalg.IV);
-                EncryptTextToFile(sData, FileName, key, DESalg.IV, cipherMode);
+                EncryptTextToFile(text, FileName, key, DESalg.IV, cipherMode);
 
                 // Decrypt the text from a file using the file name, key, and IV.
-                //string Final = DecryptTextFromFile(FileName, DESalg.Key, DESalg.IV);
                 string Final = DecryptTextFromFile(FileName, key, DESalg.IV, cipherMode);
 
                 // Display the decrypted string to the console.
@@ -114,7 +143,7 @@ namespace DES_ConsoleApp1
                 return null;
             }
         }
-        public static void EncryptTextToFile(String Data, String FileName, byte[] Key, byte[] IV, bool cipherMode)
+        public static void EncryptTextToFile(String Data, String FileName, byte[] Key, byte[] IV, int cipherMode)
         {
             try
             {
@@ -123,7 +152,7 @@ namespace DES_ConsoleApp1
 
                 // Create a new DES object.
                 DES DESalg = DES.Create();
-                if (cipherMode == true)
+                if (cipherMode == 1)
                     DESalg.Mode = CipherMode.ECB;
 
                 // Create a CryptoStream using the FileStream
@@ -155,7 +184,7 @@ namespace DES_ConsoleApp1
             }
         }
 
-        public static string DecryptTextFromFile(String FileName, byte[] Key, byte[] IV, bool cipherMode)
+        public static string DecryptTextFromFile(String FileName, byte[] Key, byte[] IV, int cipherMode)
         {
             try
             {
@@ -164,7 +193,7 @@ namespace DES_ConsoleApp1
 
                 // Create a new DES object.
                 DES DESalg = DES.Create();
-                if(cipherMode == true)
+                if(cipherMode == 1)
                     DESalg.Mode = CipherMode.ECB;
 
                 // Create a CryptoStream using the FileStream
@@ -185,6 +214,7 @@ namespace DES_ConsoleApp1
                 sReader.Close();
                 cStream.Close();
                 fStream.Close();
+                File.Delete(FileName); // Delete the file
 
                 // Return the string.
                 return val;
